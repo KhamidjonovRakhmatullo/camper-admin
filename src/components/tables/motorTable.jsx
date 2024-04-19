@@ -1,4 +1,3 @@
-import * as React from "react";
 import Table from "@mui/joy/Table";
 import Button from "@mui/joy/Button";
 function createData(name, calories, fat, carbs, protein) {
@@ -20,25 +19,30 @@ export default function TableHover() {
         <tr>
           <th style={{ width: "5%" }}>No</th>
           <th>Name</th>
-          <th>Photo</th>
-          <th>Cost</th>
-          <th>license</th>
-          <th>people</th>
-          <th>date</th>
+          <th>Location</th>
+          <th>People</th>
+          <th>License</th>
+          <th>Price</th>
+          <th>edit</th>
+          <th>delete</th>
         </tr>
       </thead>
       <tbody>
         {rows.map((row) => (
           <tr key={row.name}>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-
+            <td>{Math.ceil(Math.random()*10)}</td>
+            <td>Name</td>
+            <td>Seoul</td>
+            <td>{Math.ceil(Math.random()*10)} </td>
+            <td>{Math.ceil(Math.random()*6)} year</td>
+            <td>{Math.ceil(Math.random()*10000)} $</td>
             <td>
-              <Button variant="outlined" color="danger">
+              <Button variant="outlined" color="primary" size="md">
+                Edit
+              </Button>
+            </td>
+            <td>
+              <Button variant="outlined" color="danger" size="md">
                 Delete
               </Button>
             </td>

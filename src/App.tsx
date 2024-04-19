@@ -4,7 +4,7 @@ import Box from "@mui/joy/Box";
 
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import MotorComponent from "./components/pages/motor";
 import HomeComponent from "./components/pages/home";
 
