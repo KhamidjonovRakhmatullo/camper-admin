@@ -87,7 +87,6 @@
 .popup-content {
   border-radius: 20px;
   /* padding: 0.5rem; */
-  background-color: red;
 }
 
 html[data-theme='dark'] .popup-content {
