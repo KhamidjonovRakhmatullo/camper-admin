@@ -5,8 +5,8 @@ import Box from "@mui/joy/Box";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import { Route, Routes } from "react-router-dom";
-import MotorComponent from "./components/pages/motor";
-import HomeComponent from "./components/pages/home";
+import MotorComponent from "./components/pages/motor/motor";
+import HomeComponent from "./components/pages/home/home";
 
 export default function JoyOrderDashboardTemplate() {
   return (
@@ -14,7 +14,7 @@ export default function JoyOrderDashboardTemplate() {
       <CssBaseline />
       <Box sx={{ display: "flex", minHeight: "100dvh" }}>
         <Header />
-        <Sidebar />
+        <Sidebar /> 
 
         <Routes>
           <Route path="/" element={<HomeComponent />} />

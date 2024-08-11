@@ -35,7 +35,8 @@ export default function Sidebar() {
           md: "none",
         },
         transition: "transform 0.4s, width 0.4s",
-        zIndex: 10000,
+        // zIndex: 10000,
+        zIndex: 0,
         height: "100dvh",
         width: "var(--Sidebar-width)",
         top: 0,
@@ -110,7 +111,7 @@ export default function Sidebar() {
           }}
         >
           <ListItem>
-            <Link to="/">
+            <Link to="/" style={{textDecoration: "none", width: "100%"}}>
               <ListItemButton>
                 <HomeRoundedIcon />
                 <ListItemContent>
@@ -120,7 +121,7 @@ export default function Sidebar() {
             </Link>
           </ListItem>
           <ListItem>
-            <Link to="/motor">
+            <Link to="/motor" style={{textDecoration: "none", width: "100%"}}>
               <ListItemButton>
                 <DirectionsCarIcon />
                 <ListItemContent>
