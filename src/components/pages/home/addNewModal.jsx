@@ -26,7 +26,7 @@ export default function AddNewModal() {
       <Modal open={open} onClose={() => setOpen(false)}>
         <ModalDialog>
           <DialogTitle>Create new project</DialogTitle>
-          <DialogContent>Fill in the information of the project.</DialogContent>
+          <DialogContent>Fill in the information of the project</DialogContent>
           <form
             onSubmit={(event) => {
               event.preventDefault();
