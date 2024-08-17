@@ -101,7 +101,7 @@ export default function AddNewMotor({name, setName}) {
           sx={{ width: "50%"}}
         >
           <DialogTitle>Add new motor</DialogTitle>
-          <DialogContent>Fill in the information of the car.</DialogContent>
+          <DialogContent>Fill in the information of the car</DialogContent>
           <div
             style={{
               display: "flex",
