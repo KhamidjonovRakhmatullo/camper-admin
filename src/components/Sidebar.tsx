@@ -111,7 +111,7 @@ export default function Sidebar() {
           }}
         >
           <ListItem>
-            <Link to="/" style={{textDecoration: "none", width: "100%"}}>
+            <Link to="/home" style={{textDecoration: "none", width: "100%"}}>
               <ListItemButton>
                 <HomeRoundedIcon />
                 <ListItemContent>
@@ -131,12 +131,14 @@ export default function Sidebar() {
             </Link>
           </ListItem>
           <ListItem>
+          <Link to="/" style={{textDecoration: "none", width: "100%"}}>
             <ListItemButton>
               <DirectionsCarIcon />
               <ListItemContent>
                 <Typography level="title-sm">Caravan</Typography>
               </ListItemContent>
             </ListItemButton>
+          </Link>
           </ListItem>
           <ListItem>
             <ListItemButton>

@@ -18,7 +18,7 @@ import {
 import axios from "axios";
 import { BaseURL } from "../../config/dataLink";
 
-export default function AddNewMotor({name, setName}) {
+export default function AddNewMotor() {
   ////////  Modal /////////// 
   const [open, setOpen] = React.useState(false);
   /////////////////////////////////////////////
@@ -41,7 +41,7 @@ export default function AddNewMotor({name, setName}) {
   /////////////////////////////////////////////
 
   /////////  Data /////////// 
-  // const [name, setName] = React.useState("")
+  const [name, setName] = React.useState("")
   const [cost, setCost] = React.useState("")
   const [type, setType] = React.useState("")
   const [people, setPeople] = React.useState("")
