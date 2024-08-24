@@ -1,0 +1,24 @@
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: connect to server and deploy changes
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: root
+          password: ${{ secrets.PASS }}
+          port: 22
+          script: |
+            cd camper-admin/
+            git pull origin main
+            rm -rf ./build
+            rm -rf /var/www/admin.rakhmatulloh.uz
+            mkdir /var/www/admin.rakhmatulloh.uz
+            npm i
+            npm run build
+            cp -rf ./build/* /var/www/admin.rakhmatulloh.uz
