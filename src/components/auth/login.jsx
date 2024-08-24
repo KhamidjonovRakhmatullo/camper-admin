@@ -4,6 +4,7 @@ import {
   AuthBox,
   AuthBoxTitle,
   ColorScheme,
+  ForgotPassword,
   InputLabel,
   InputWrapper,
   LoginText,
@@ -11,18 +12,18 @@ import {
   RegisterLeft,
   RegisterRight,
   RememberMe,
+  SpaceBetween,
   StyledButton,
   StyledCheckbox,
   StyledInput,
 } from "./register.style";
 import axios from "axios";
-import { BaseURL } from "../config/dataLink";
 import { Link, useNavigate } from "react-router-dom";
 import ColorSchemeToggle from "../ColorSchemeToggle";
+import { BaseURL } from "../config/dataLink";
 
-const Register = () => {
+const Login = () => {
 
-  const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -33,9 +34,9 @@ const Register = () => {
   const handleSubmit = async(event) => {
      event.preventDefault()
      try {
-      const response = await axios.post(BaseURL + "/auth/register", {name, email, password})
+      const response = await axios.post(BaseURL + "/auth/login", {email, password})
       console.log(response.data)
-      navigate('/');
+      navigate('/motor');
      } catch (error) {
       console.error("Posting auth data is Error!", error)
      }
@@ -51,31 +52,29 @@ const Register = () => {
       <ColorSchemeToggle/>
       </ColorScheme>
         <AuthBox>
-          <AuthBoxTitle>Sign up</AuthBoxTitle>
+          <AuthBoxTitle>Sign in</AuthBoxTitle>
           <LoginText $marginBottom>
-            Do you hava an account? 
-            <Link to="/" style={{textDecoration: "none"}}> <span> Sign in! </span></Link>
+            Do you NOT hava an account?
+            <Link to="/register" style={{textDecoration: "none"}}> <span> Sign up! </span></Link>
           </LoginText>
           <form onSubmit={handleSubmit} style={{width: "100%"}}>
-          <InputWrapper $marginBottom2>
-            <InputLabel>Name</InputLabel>
-            <StyledInput type="text" required value={name} onChange={(e)=> setName(e.target.value)}/>
-          </InputWrapper>
-
           <InputWrapper $marginBottom2>
             <InputLabel>Email</InputLabel>
             <StyledInput type="text" required value={email} onChange={(e)=> setEmail(e.target.value)}/>
           </InputWrapper>
           <InputWrapper $marginBottom2>
-            <InputLabel>Create a password</InputLabel>
+            <InputLabel>Your password</InputLabel>
             <StyledInput type="password" required value={password} onChange={(e)=> setPassword(e.target.value)}/>
           </InputWrapper>
-          <RememberMe>
+          <SpaceBetween>
+            <RememberMe>
               <StyledCheckbox />
               Remember me
             </RememberMe>
+            <ForgotPassword>Forgot your password?</ForgotPassword>
+          </SpaceBetween>
           <StyledButton $marginTop primary size="large" scaleOnHover>
-            Sign up
+            Sign in
           </StyledButton>
           </form>
         </AuthBox>
@@ -90,4 +89,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

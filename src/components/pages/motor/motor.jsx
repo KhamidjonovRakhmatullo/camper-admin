@@ -43,8 +43,10 @@ const MotorComponent = () => {
   });
 
   const fetchData = async () => {
+    // const token = localStorage.getItem(token)
+    // console.log(token)
     try {
-      const response = await axios.get(BaseURL);
+      const response = await axios.get(BaseURL + "/motor");
       setDataList(response.data);
     } catch (error) {
       console.log("Fetch data is NOT successfull", error);
@@ -54,7 +56,7 @@ const MotorComponent = () => {
   const handleEdit = async () => {
     if (!editItem) return;
     try {
-      const response = await axios.put(`${BaseURL}/${editItem.name} `, {
+      const response = await axios.put(`${BaseURL + "/motor"}/${editItem.name} `, {
         newName,
         newCost,
         newType,
@@ -88,7 +90,7 @@ const MotorComponent = () => {
   const handleDelete = async () => {
     if(!deleteItem) return;
     try {
-      const response = await axios.delete(`${BaseURL}/${deleteItem.name} `);
+      const response = await axios.delete(`${BaseURL + "/motor"}/${deleteItem.name} `);
       console.log(response.data);
       fetchData();
       setOpenDeleteModal(false);
@@ -148,7 +150,7 @@ const MotorComponent = () => {
           {dataList.map((value, index) => {
             return (
               <tr key={index}>
-                <td>{value.id || "!"}</td>
+                <td>{index + 1 || "!"}</td>
                 <td>{value.name || "no data"}</td>
                 <td>{value.cost || "no data"}</td>
                 <td>{value.type || "no data"}</td>
