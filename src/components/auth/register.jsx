@@ -37,7 +37,7 @@ const Register = () => {
       console.log(response.data)
       navigate('/');
      } catch (error) {
-      console.error("Posting auth data is Error!", error)
+      console.error("Create account is NOT success!", error)
      }
   }
   return (

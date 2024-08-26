@@ -13,8 +13,8 @@ export const FileUploadWrapper = styled.div`
 // Define the hidden file input
 export const StyledFileUpload = styled.input`
   position: absolute;
-  width: 100%;
-  height: 100%;
+  /* width: 100%; */
+  /* height: 100%; */
   opacity: 0;
   cursor: pointer;
 `;

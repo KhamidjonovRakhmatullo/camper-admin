@@ -20,10 +20,15 @@ import DialogContent from '@mui/joy/DialogContent';
 import DialogActions from '@mui/joy/DialogActions';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import { useNavigate } from "react-router-dom";
 
 const MotorComponent = () => {
+  //
+  const navigate = useNavigate()
+  //Modals
   const [open, setOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  //datas
   const [dataList, setDataList] = useState([]);
   const [editItem, setEditItem] = useState(null);
   const [deleteItem, setDeleteItem] = useState(null);
@@ -37,22 +42,39 @@ const MotorComponent = () => {
   const [newCompany, setNewCompany] = useState("");
   const [newLocation, setNewLocation] = useState("");
   const [newRate, setNewRate] = useState("");
+  //---end---//
+
+  //get token
+  const token = localStorage.getItem("token")
 
   useEffect(() => {
-    fetchData();
-  });
-
-  const fetchData = async () => {
-    // const token = localStorage.getItem(token)
-    // console.log(token)
-    try {
-      const response = await axios.get(BaseURL + "/motor");
-      setDataList(response.data);
-    } catch (error) {
-      console.log("Fetch data is NOT successfull", error);
+    console.log(token)
+    const fetchData = async () => {
+      try {
+        const response = await fetch(BaseURL + "/motor", {
+          headers:{
+            Authorization: `Bearer ${token}`
+          }
+        });
+        if(!response.ok){
+          throw new Error(`Failed to fetch motor data. Status: ${response.status}`);
+        }
+        const data = await response.json()
+        setDataList(data);
+      } catch (error) {
+        console.error("An error occurred while fetching motor data:", error);
+      }
+    };
+    if (token) {
+      fetchData();
+    } else {
+      console.warn("No token found in localStorage. Cannot fetch motor data.");
     }
-  };
+  }, [token]);
 
+  console.log("Current data list:", dataList);
+
+  //edit data
   const handleEdit = async () => {
     if (!editItem) return;
     try {
@@ -67,13 +89,14 @@ const MotorComponent = () => {
         newRate,
       });
       console.log(response.data);
-      fetchData();
+      // fetchData();
       setOpen(false); // Close modal after successful submission
     } catch (error) {
       console.error(`Error to edit`, error);
     }
   };
-
+  
+//open edit modal exact one item and with its current value 
   const handleOpenModal = (item) => {
     setEditItem(item);
     setNewName(item.name || "");
@@ -87,22 +110,42 @@ const MotorComponent = () => {
     setOpen(true);
   };
 
-  const handleDelete = async () => {
+//delete data
+  const handleDelete = async (name) => {
     if(!deleteItem) return;
     try {
-      const response = await axios.delete(`${BaseURL + "/motor"}/${deleteItem.name} `);
-      console.log(response.data);
-      fetchData();
+      const response = await fetch(`${BaseURL + "/motor"}/${deleteItem.name}`,{
+        method: "DELETE",
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      });
+      if(!response.ok){
+        throw new Error(`Error to delete data`)
+      }
       setOpenDeleteModal(false);
     } catch (error) {
       console.error(`Error to delete`, error);
     }
   };
 
+//open delete modal exact one item 
   const handleOpenDeleteModal = (item) => {
     setDeleteItem(item)
     setOpenDeleteModal(true)
   }
+
+//log out 
+  const handleLogOut = () => {
+    localStorage.removeItem("token")
+    navigate("/")
+  }
+
+//ontime post
+  const handleAddData = (NewData)=>{
+     setDataList([...dataList, NewData])
+  }
+
   return (
     <HomeContainer>
       <StateContainer>
@@ -127,13 +170,13 @@ const MotorComponent = () => {
           sx={{ width: "100%" }}
         />
 
-        <AddNewMotor />
+        <AddNewMotor onAddData={handleAddData}/>
       </div>
 
       <Table hoverRow>
         <thead>
           <tr>
-            <th style={{ width: "5%" }}>No</th>
+            <th style={{ width: "5%" }}>#</th>
             <th>Name</th>
             <th>Cost</th>
             <th>Type</th>
@@ -142,8 +185,8 @@ const MotorComponent = () => {
             <th>Company</th>
             <th>Location</th>
             <th>Rate</th>
-            <th style={{ textAlign: "center" }}>Edit</th>
-            <th style={{ textAlign: "center" }}>Delete</th>
+            <th style={{ textAlign: "center" }}>Actions</th>
+            <th style={{ textAlign: "center" }}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -185,6 +228,7 @@ const MotorComponent = () => {
           })}
         </tbody>
       </Table>
+      <Button onClick={handleLogOut}>Log Out</Button>
       <Modal open={open} onClose={() => setOpen(false)}>
                     <ModalDialog sx={{ width: "35%" }}>
                       <DialogTitle>Edit motor</DialogTitle>
@@ -281,6 +325,9 @@ const MotorComponent = () => {
                         <Button variant="solid" color="danger" onClick={handleDelete}>
                           Discard notes
                         </Button>
+                        {/* <Button variant="solid" color="danger" onClick={()=> handleDelete(dataList.name)}>
+                          Discard notes
+                        </Button> */}
                         <Button variant="plain" color="neutral" onClick={() => setOpenDeleteModal(false)}>
                           Cancel
                         </Button>

@@ -9,7 +9,7 @@ export const RegisterContainer = styled.div`
 
 export const RegisterRight = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   width: 100%;
 `;
@@ -208,6 +208,33 @@ export const AdminIcon = styled.div`
     line-height: normal;
   }
 `;
+
+export const DemoWrapper = styled.div`
+width: 100%;
+display: flex;
+flex-direction: column;
+align-items: start;
+h4{
+    margin: 0px;
+    color: var(--text, #006dab);
+    font-family: "Open Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+div{
+    color: var(--text, black);
+    font-family: "Open Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    span{
+      color:  #006dab;
+    }
+}
+`
 
 export const RegisterLeft = styled.div`
   display: flex;

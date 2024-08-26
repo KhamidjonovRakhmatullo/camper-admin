@@ -10,10 +10,10 @@ import DialogContent from "@mui/joy/DialogContent";
 import Stack from "@mui/joy/Stack";
 import Add from "@mui/icons-material/Add";
 import { CustomLabel, FileUploadWrapper, StyledFileUpload } from "./style";
-import axios from "axios";
+// import axios from "axios";
 import { BaseURL } from "../../config/dataLink";
 
-export default function AddNewMotor() {
+export default function AddNewMotor({onAddData}) {
   ////////  Modal ///////////
   const [open, setOpen] = React.useState(false);
   /////////////////////////////////////////////
@@ -28,40 +28,40 @@ export default function AddNewMotor() {
   const [location, setLocation] = React.useState("");
   const [rate, setRate] = React.useState("");
 
-  //   React.useEffect(()=> {
-  //     fetchData()
-  // })
+  const [message ,setMessage] = React.useState("")
 
-  // const fetchData = async () => {
-  //     try {
-  //         const response = await axios.get(BaseURL)
-  //         setDataList(response.data)
-  //     } catch (error) {
-  //         console.log("Fetch data is NOT successfull", error)
-  //     }
-  // }
+  const token = localStorage.getItem("token")
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if(!token){
+      console.log("No token found!")
+    }
     try {
-      const response = await axios.post(BaseURL, {
-      //   method: "POST",
-      //   headers:{
-      //     accept: "*/*",
-      //     Authorization: `Bearer ${token}`
-      //   },
-        name,
-        cost,
-        type,
-        people,
-        date,
-        company,
-        location,
-        rate,
+      const response = await fetch(BaseURL + "/motor", {
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ 
+          name,
+          cost,
+          type,
+          people,
+          date,
+          company,
+          location,
+          rate,
+        })
       });
-      
-      console.log(response.data);
-      // fetchData()
+      const data = await response.json()
+      if(response.ok){
+         setMessage(`Data added successfully: ${data}`);
+      }
+      console.log(data);
+      onAddData(data.newData)
       setOpen(false);
     } catch (error) {
       console.error("Submit the data is NOT successful", error);
@@ -71,6 +71,17 @@ export default function AddNewMotor() {
   const handleChangeName = (e) => {
     setName(e.target.value);
   };
+
+  const handleDemoData = () => {
+    setName(`Caravan ${Math.floor(Math.random() * 50)}`);
+    setCost("2000")
+    setType("Family Camp")
+    setPeople("5")
+    setDate("01112003")
+    setCompany("Camping-Car")
+    setLocation("Seoul")
+    setRate("5.6")
+  }
 
   return (
     <React.Fragment>
@@ -98,6 +109,7 @@ export default function AddNewMotor() {
               <StyledFileUpload id="fileInput" type="file" />
               <CustomLabel htmlFor="fileInput"></CustomLabel>
               Upload photo
+              <Button onClick={handleDemoData}>AUTO FILL DEMO DATA</Button>
             </FileUploadWrapper>
 
             <form onSubmit={handleSubmit} style={{ width: "60%" }}>
@@ -126,6 +138,7 @@ export default function AddNewMotor() {
                   <Input
                     type="text"
                     autoFocus
+                    required
                     value={type}
                     onChange={(e) => setType(e.target.value)}
                   />
@@ -135,6 +148,7 @@ export default function AddNewMotor() {
                   <Input
                     type="number"
                     autoFocus
+                    required
                     value={people}
                     onChange={(e) => setPeople(e.target.value)}
                   />
@@ -142,8 +156,9 @@ export default function AddNewMotor() {
                 <FormControl>
                   <FormLabel>Date</FormLabel>
                   <Input
-                    type="date"
+                    type="number"
                     autoFocus
+                    required
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                   />
@@ -153,6 +168,7 @@ export default function AddNewMotor() {
                   <Input
                     type="text"
                     autoFocus
+                    required
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
                   />
@@ -162,6 +178,7 @@ export default function AddNewMotor() {
                   <Input
                     type="text"
                     autoFocus
+                    required
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                   />
@@ -171,6 +188,7 @@ export default function AddNewMotor() {
                   <Input
                     type="text"
                     autoFocus
+                    required
                     value={rate}
                     onChange={(e) => setRate(e.target.value)}
                   />
