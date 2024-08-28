@@ -70,7 +70,7 @@ const MotorComponent = () => {
     } else {
       console.warn("No token found in localStorage. Cannot fetch motor data.");
     }
-  // }, [token]);
+  // }, [token])
 
   // console.log("Current data list:", dataList);
 
