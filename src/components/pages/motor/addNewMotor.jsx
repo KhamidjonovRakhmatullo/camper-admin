@@ -74,7 +74,7 @@ export default function AddNewMotor({onAddData}) {
 
   const handleDemoData = () => {
     setName(`Caravan ${Math.floor(Math.random() * 50)}`);
-    setCost("2000")
+    setCost(`${Math.floor(Math.random() *10000)}`)
     setType("Family Camp")
     setPeople("5")
     setDate("01112003")

@@ -47,8 +47,8 @@ const MotorComponent = () => {
   //get token
   const token = localStorage.getItem("token")
 
-  useEffect(() => {
-    console.log(token)
+  // useEffect(() => {
+  //   console.log(token)
     const fetchData = async () => {
       try {
         const response = await fetch(BaseURL + "/motor", {
@@ -70,9 +70,14 @@ const MotorComponent = () => {
     } else {
       console.warn("No token found in localStorage. Cannot fetch motor data.");
     }
-  }, [token]);
+  // }, [token]);
 
-  console.log("Current data list:", dataList);
+  // console.log("Current data list:", dataList);
+
+  const handleOpenDeleteModal = (item) => {
+    setDeleteItem(item)
+    setOpenDeleteModal(true)
+  }
 
   //edit data
   const handleEdit = async () => {
@@ -130,10 +135,7 @@ const MotorComponent = () => {
   };
 
 //open delete modal exact one item 
-  const handleOpenDeleteModal = (item) => {
-    setDeleteItem(item)
-    setOpenDeleteModal(true)
-  }
+
 
 //log out 
   const handleLogOut = () => {
@@ -143,8 +145,12 @@ const MotorComponent = () => {
 
 //ontime post
   const handleAddData = (NewData)=>{
-     setDataList([...dataList, NewData])
+    //  setDataList([...dataList, NewData])
   }
+
+  useEffect(()=> {
+    fetchData();
+  })
 
   return (
     <HomeContainer>
