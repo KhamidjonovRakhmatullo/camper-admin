@@ -146,7 +146,7 @@ const MotorComponent = () => {
         <NavigateNextIcon />
         <p>Motor</p>
       </StateContainer>
-      <h1>Motor</h1>
+      <h1>Motor.</h1>
 
       <div
         style={{
