@@ -4,8 +4,6 @@ import {
   AuthBox,
   AuthBoxTitle,
   ColorScheme,
-  InputLabel,
-  InputWrapper,
   LoginText,
   RegisterContainer,
   RegisterLeft,
@@ -13,33 +11,37 @@ import {
   RememberMe,
   StyledButton,
   StyledCheckbox,
-  StyledInput,
 } from "./register.style";
 import axios from "axios";
 import { BaseURL } from "../config/dataLink";
 import { Link, useNavigate } from "react-router-dom";
 import ColorSchemeToggle from "../ColorSchemeToggle";
+import FormControl from "@mui/joy/FormControl";
+import FormLabel from "@mui/joy/FormLabel";
+import Input from "@mui/joy/Input";
+import { Typography } from "@mui/joy";
 
 const Register = () => {
-
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  
 
-
-  const handleSubmit = async(event) => {
-     event.preventDefault()
-     try {
-      const response = await axios.post(BaseURL + "/auth/register", {name, email, password})
-      console.log(response.data)
-      navigate('/');
-     } catch (error) {
-      console.error("Create account is NOT success!", error)
-     }
-  }
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post(BaseURL + "/auth/register", {
+        name,
+        email,
+        password,
+      });
+      console.log(response.data);
+      navigate("/");
+    } catch (error) {
+      console.error("Create account is NOT success!", error);
+    }
+  };
   return (
     <RegisterContainer>
       <RegisterRight>
@@ -47,36 +49,58 @@ const Register = () => {
           <h2>Camper</h2>
           <p>For admins</p>
         </AdminIcon>
-      <ColorScheme>
-      <ColorSchemeToggle/>
-      </ColorScheme>
+        <ColorScheme>
+          <ColorSchemeToggle />
+        </ColorScheme>
         <AuthBox>
           <AuthBoxTitle>Sign up</AuthBoxTitle>
           <LoginText $marginBottom>
-            Do you hava an account? 
-            <Link to="/" style={{textDecoration: "none"}}> <span> Sign in! </span></Link>
+            <Typography level="body-sm"> Do you hava an account?</Typography>
+            <Link to="/" style={{ textDecoration: "none" }}>
+              {" "}
+              <span> Sign in! </span>
+            </Link>
           </LoginText>
-          <form onSubmit={handleSubmit} style={{width: "100%"}}>
-          <InputWrapper $marginBottom2>
-            <InputLabel>Name</InputLabel>
-            <StyledInput type="text" required value={name} onChange={(e)=> setName(e.target.value)}/>
-          </InputWrapper>
+          <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+            <FormControl>
+              <FormLabel>Name</FormLabel>
+              <Input
+                autoFocus
+                required
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </FormControl>
+            <FormControl sx={{ margin: "10px 0px " }}>
+              <FormLabel>Email</FormLabel>
+              <Input
+                autoFocus
+                required
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </FormControl>
+            <FormControl sx={{ marginBottom: "10px" }}>
+              <FormLabel>Password</FormLabel>
+            {/* <Typography level="body-sm"> Password</Typography> */}
+              <Input
+                autoFocus
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </FormControl>
 
-          <InputWrapper $marginBottom2>
-            <InputLabel>Email</InputLabel>
-            <StyledInput type="text" required value={email} onChange={(e)=> setEmail(e.target.value)}/>
-          </InputWrapper>
-          <InputWrapper $marginBottom2>
-            <InputLabel>Create a password</InputLabel>
-            <StyledInput type="password" required value={password} onChange={(e)=> setPassword(e.target.value)}/>
-          </InputWrapper>
-          <RememberMe>
+            <RememberMe>
               <StyledCheckbox />
-              Remember me
+            <Typography level="body-sm"> Remember me</Typography>
             </RememberMe>
-          <StyledButton $marginTop primary size="large" scaleOnHover>
-            Sign up
-          </StyledButton>
+            <StyledButton $marginTop primary size="large" scaleOnHover>
+              Sign up
+            </StyledButton>
           </form>
         </AuthBox>
       </RegisterRight>

@@ -22,9 +22,14 @@ import { closeSidebar } from "../utils";
 
 import GroupIcon from "@mui/icons-material/Group";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
+  const navigate = useNavigate()
+  const handleLogOut = () => {
+    localStorage.removeItem("token")
+    navigate("/")
+  }
   return (
     <Sheet
       className="Sidebar"
@@ -199,7 +204,7 @@ export default function Sidebar() {
         }}
       >
         <Typography level="title-sm">Logout</Typography>
-        <IconButton size="sm" variant="plain" color="neutral">
+        <IconButton size="sm" variant="plain" color="neutral"  onClick={handleLogOut}>
           <LogoutRoundedIcon />
         </IconButton>
       </Box>

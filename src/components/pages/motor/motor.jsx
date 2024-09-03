@@ -3,7 +3,6 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { HomeContainer, StateContainer } from "../../styles/styled";
 import Input from "@mui/joy/Input";
 import AddNewMotor from "./addNewMotor";
-// import Scheme from "./scheme";
 import Table from "@mui/joy/Table";
 import Button from "@mui/joy/Button";
 import { useEffect, useState } from "react";
@@ -20,11 +19,8 @@ import DialogContent from '@mui/joy/DialogContent';
 import DialogActions from '@mui/joy/DialogActions';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
-import { useNavigate } from "react-router-dom";
 
 const MotorComponent = () => {
-  //
-  const navigate = useNavigate()
   //Modals
   const [open, setOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -47,8 +43,8 @@ const MotorComponent = () => {
   //get token
   const token = localStorage.getItem("token")
 
-  // useEffect(() => {
-  //   console.log(token)
+  useEffect(() => {
+    console.log(token)
     const fetchData = async () => {
       try {
         const response = await fetch(BaseURL + "/motor", {
@@ -70,9 +66,9 @@ const MotorComponent = () => {
     } else {
       console.warn("No token found in localStorage. Cannot fetch motor data.");
     }
-  // }, [token])
+  }, [token])
 
-  // console.log("Current data list:", dataList);
+  console.log("Current data list:", dataList);
 
   const handleOpenDeleteModal = (item) => {
     setDeleteItem(item)
@@ -134,23 +130,14 @@ const MotorComponent = () => {
     }
   };
 
-//open delete modal exact one item 
-
-
-//log out 
-  const handleLogOut = () => {
-    localStorage.removeItem("token")
-    navigate("/")
-  }
-
 //ontime post
   const handleAddData = (NewData)=>{
     //  setDataList([...dataList, NewData])
   }
 
-  useEffect(()=> {
-    fetchData();
-  })
+  // useEffect(()=> {
+  //   fetchData();
+  // })
 
   return (
     <HomeContainer>
@@ -234,7 +221,6 @@ const MotorComponent = () => {
           })}
         </tbody>
       </Table>
-      <Button onClick={handleLogOut}>Log Out</Button>
       <Modal open={open} onClose={() => setOpen(false)}>
                     <ModalDialog sx={{ width: "35%" }}>
                       <DialogTitle>Edit motor</DialogTitle>
@@ -340,7 +326,6 @@ const MotorComponent = () => {
                       </DialogActions>
                     </ModalDialog>
                   </Modal>
-      {/* <Scheme/> */}
     </HomeContainer>
   );
 };
