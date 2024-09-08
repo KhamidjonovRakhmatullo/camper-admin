@@ -6,7 +6,6 @@ import AddNewMotor from "./addNewMotor";
 import Table from "@mui/joy/Table";
 import Button from "@mui/joy/Button";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { BaseURL } from "../../config/dataLink";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
@@ -21,85 +20,50 @@ import DeleteForever from '@mui/icons-material/DeleteForever';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 
 const MotorComponent = () => {
-  //Modals
-  const [open, setOpen] = useState(false);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  //datas
-  const [dataList, setDataList] = useState([]);
-  const [editItem, setEditItem] = useState(null);
-  const [deleteItem, setDeleteItem] = useState(null);
-  // const [name, setName] = useState("");
-  ////////EDITS
-  const [newName, setNewName] = useState("");
-  const [newCost, setNewCost] = useState("");
-  const [newType, setNewType] = useState("");
-  const [newPeople, setNewPeople] = useState("");
-  const [newDate, setNewDate] = useState("");
-  const [newCompany, setNewCompany] = useState("");
-  const [newLocation, setNewLocation] = useState("");
-  const [newRate, setNewRate] = useState("");
-  //---end---//
+// Modals
+const [open, setOpen] = useState(false); // Controls the visibility of the edit modal
+const [openDeleteModal, setOpenDeleteModal] = useState(false); // Controls the visibility of the delete modal
 
-  //get token
-  const token = localStorage.getItem("token")
+// Data
+const [dataList, setDataList] = useState([]); // Holds the list of items
+const [editItem, setEditItem] = useState(null); // Stores the item being edited
+const [deleteItem, setDeleteItem] = useState(null); // Stores the item to be deleted
+
+// Edit fields
+const [newName, setNewName] = useState("");
+const [newCost, setNewCost] = useState("");
+const [newType, setNewType] = useState("");
+const [newPeople, setNewPeople] = useState("");
+const [newDate, setNewDate] = useState("");
+const [newCompany, setNewCompany] = useState("");
+const [newLocation, setNewLocation] = useState("");
+const [newRate, setNewRate] = useState("");
+
+//get token
+const token = localStorage.getItem("token")
 
   useEffect(() => {
-    console.log(token)
     const fetchData = async () => {
       try {
         const response = await fetch(BaseURL + "/motor", {
-          headers:{
-            Authorization: `Bearer ${token}`
-          }
+          method: "GET",
         });
         if(!response.ok){
           throw new Error(`Failed to fetch motor data. Status: ${response.status}`);
         }
+        // Parse and set the fetched data
         const data = await response.json()
         setDataList(data);
       } catch (error) {
         console.error("An error occurred while fetching motor data:", error);
       }
     };
-    if (token) {
-      fetchData();
-    } else {
-      console.warn("No token found in localStorage. Cannot fetch motor data.");
-    }
-  }, [token])
+    fetchData()
+  }, [])
 
-  console.log("Current data list:", dataList);
-
-  const handleOpenDeleteModal = (item) => {
-    setDeleteItem(item)
-    setOpenDeleteModal(true)
-  }
-
-  //edit data
-  const handleEdit = async () => {
-    if (!editItem) return;
-    try {
-      const response = await axios.put(`${BaseURL + "/motor"}/${editItem.name} `, {
-        newName,
-        newCost,
-        newType,
-        newPeople,
-        newDate,
-        newCompany,
-        newLocation,
-        newRate,
-      });
-      console.log(response.data);
-      // fetchData();
-      setOpen(false); // Close modal after successful submission
-    } catch (error) {
-      console.error(`Error to edit`, error);
-    }
-  };
-  
-//open edit modal exact one item and with its current value 
+// Open the EDIT modal and populate it with the current values of the selected item
   const handleOpenModal = (item) => {
-    setEditItem(item);
+    setEditItem(item); // Set the item to be edited
     setNewName(item.name || "");
     setNewCost(item.cost || "");
     setNewType(item.type || "");
@@ -108,14 +72,51 @@ const MotorComponent = () => {
     setNewCompany(item.company || "");
     setNewLocation(item.location || "");
     setNewRate(item.rate || "");
-    setOpen(true);
+    setOpen(true); // Open the modal
   };
 
+  //EDIT data
+  const handleEdit = async () => {
+    if (!editItem) return;
+    try {
+      const response = await fetch(`${BaseURL + "/motor"}/${editItem._id}`,{
+        method: "PUT",
+        headers:{
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: newName,
+          cost: newCost,
+          type: newType,
+          people: newPeople,
+          date: newDate,
+          company: newCompany,
+          location: newLocation,
+          rate: newRate,
+        }),
+      });
+      const data = await response.json()
+      console.log(data)
+      // fetchData();
+      setOpen(false); // Close modal after successful submission
+    } catch (error) {
+      console.error(`Error to edit`, error);
+    }
+  };
+  
+
+// Open the DELETE modal of the selected item
+  const handleOpenDeleteModal = (item) => {
+    setDeleteItem(item)
+    setOpenDeleteModal(true)
+  }
+
 //delete data
-  const handleDelete = async (name) => {
+  const handleDelete = async () => {
     if(!deleteItem) return;
     try {
-      const response = await fetch(`${BaseURL + "/motor"}/${deleteItem.name}`,{
+      const response = await fetch(`${BaseURL + "/motor"}/${deleteItem._id}`,{
         method: "DELETE",
         headers:{
           Authorization: `Bearer ${token}`
@@ -137,7 +138,7 @@ const MotorComponent = () => {
 
   // useEffect(()=> {
   //   fetchData();
-  // })
+  // },[dataList])
 
   return (
     <HomeContainer>
