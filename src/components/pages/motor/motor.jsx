@@ -39,7 +39,7 @@ const [newCompany, setNewCompany] = useState("");
 const [newLocation, setNewLocation] = useState("");
 const [newRate, setNewRate] = useState("");
 
-//get token.
+//get token
 const token = localStorage.getItem("token")
 
   useEffect(() => {
