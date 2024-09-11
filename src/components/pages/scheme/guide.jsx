@@ -9,7 +9,7 @@ import DialogTitle from "@mui/joy/DialogTitle";
 import DialogContent from "@mui/joy/DialogContent";
 import Stack from "@mui/joy/Stack";
 import Add from "@mui/icons-material/Add";
-import { CustomLabel, FileUploadWrapper, StyledFileUpload } from "./style";
+import { CustomLabel, FileUploadWrapper, StyledFileUpload } from "../motor/style";
 import { BaseURL } from "../../config/dataLink";
 
 const AddNewMotor = ({ onAddData }) => {

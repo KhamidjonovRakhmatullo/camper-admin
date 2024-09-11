@@ -9,6 +9,8 @@ import MotorComponent from "./components/pages/motor/motor";
 import HomeComponent from "./components/pages/home/home";
 import Register from "./components/auth/register";
 import Login from "./components/auth/login";
+import MotorInfo from "./components/pages/motor/motorInfo";
+import CaravanComponent from "./components/pages/caravan/caravan";
 
 export default function JoyOrderDashboardTemplate() {
   const location = useLocation();
@@ -25,6 +27,8 @@ export default function JoyOrderDashboardTemplate() {
           <Route path="/register" element={<Register />} />
           <Route path="/home" element={<HomeComponent />} />
           <Route path="/motor" element={<MotorComponent />} />
+          <Route path="/caravan" element={<CaravanComponent />} />
+          <Route path="/motor/:id" element={<MotorInfo />} />
         </Routes>
       </Box>
     </CssVarsProvider>

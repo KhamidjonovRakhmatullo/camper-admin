@@ -18,8 +18,10 @@ import DialogContent from '@mui/joy/DialogContent';
 import DialogActions from '@mui/joy/DialogActions';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import { useNavigate } from "react-router-dom";
 
 const MotorComponent = () => {
+  const navigate = useNavigate(); 
 // Modals
 const [open, setOpen] = useState(false); // Controls the visibility of the edit modal
 const [openDeleteModal, setOpenDeleteModal] = useState(false); // Controls the visibility of the delete modal
@@ -39,7 +41,7 @@ const [newCompany, setNewCompany] = useState("");
 const [newLocation, setNewLocation] = useState("");
 const [newRate, setNewRate] = useState("");
 
-//get token
+//get token.
 const token = localStorage.getItem("token")
 
   useEffect(() => {
@@ -186,8 +188,8 @@ const token = localStorage.getItem("token")
         <tbody>
           {dataList.map((value, index) => {
             return (
-              <tr key={index}>
-                <td>{index + 1 || "!"}</td>
+              <tr key={value._id} onClick={() => navigate(`/motor/${value._id}`)} style={{ cursor: 'pointer' }}>
+                <td>{index + 1}</td>
                 <td>{value.name || "no data"}</td>
                 <td>{value.cost || "no data"}</td>
                 <td>{value.type || "no data"}</td>
@@ -201,8 +203,7 @@ const token = localStorage.getItem("token")
                     variant="outlined"
                     color="primary"
                     size="md"
-                    onClick={() => handleOpenModal(value)}
-                    // sx={{ width: "15%", color: "green" }}
+                    onClick={(e) => { e.stopPropagation(); handleOpenModal(value); }}
                   >
                     Edit
                   </Button>
@@ -212,7 +213,8 @@ const token = localStorage.getItem("token")
                     variant="outlined"
                     color="danger"
                     endDecorator={<DeleteForever />}
-                    onClick={() => handleOpenDeleteModal(value)}
+                    sx={{ width: "100%"}}
+                    onClick={(e) => { e.stopPropagation(); handleOpenDeleteModal(value); }}
                   >
                     Delete
                   </Button>
